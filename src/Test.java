@@ -1,66 +1,66 @@
 // Часть 1
 
 
-import java.util.ArrayList;
 
 public class Test {
+    public static double latitudeIn;
+    public static double longitudeIn;
+    public static double altitudeIn;
+
+    double x = 4203000.0, y = 172000.0, z = 4780000.0;
 
 
-        public static void main(String[] args) {
-            // Данные
-            double v = 10.0; // скорость в м/с
-            double theta_i = 0.242759432; // угол поворота внутреннего колеса в радианах
-            double W = 1.5; // ширина колеи в м
-            double L = 2.5; // длина колёсной базы в м
-            double delta_t = 0.1; // временной интервал в с
-            double total_time = 60.0; // общее время в с
 
-
-            // Начальные условия
-            double x = 0.0; // начальная координата x
-            double y = 0.0; // начальная координата y
-            double psi = 0.0; // начальный угол ориентации
-
-
-            // Вычисление радиуса поворота
-            double R = (L / Math.tan(theta_i)) + (W / 2);
-
-
-            // Вычисление угловой скорости
-            double omega = v / R;
-
-
-            // Список для хранения координат
-            ArrayList<double[]> trajectory = new ArrayList<>();
-
-
-            // Цикл расчета
-            for (double t = 0; t < total_time; t += delta_t) {
-                // Обновление угла ориентации
-                psi += omega * delta_t;
-
-
-                // Вычисление изменения координат
-                double delta_x = v * Math.cos(psi) * delta_t;
-                double delta_y = v * Math.sin(psi) * delta_t;
-
-
-                // Обновление координат
-                x += delta_x;
-                y += delta_y;
-
-
-                // Сохранение текущих координат
-                trajectory.add(new double[]{x, y});
-            }
-
-
-            // Вывод траектории
-            System.out.println("Траектория автомобиля (x, y):");
-            for (double[] point : trajectory) {
-                System.out.printf("%.4f %.4f\n", point[0], point[1]);
-            }
+    public static class Geodetic{
+        public Geodetic(double lat, double lon, double h) {
+            latitudeIn = lat;
+            longitudeIn = lon;
+            altitudeIn = h;
         }
     }
 
 
+    private static final double a = 6378137.0; // Большая полуось эллипсоида Радиус Земли в метрах
+    private static  final double b = 6356752.3142 ; // Малая полуось эллипсоида (полярный радиус Земли)
+    private static final double e_sq = 6.69437999014e-3; // Эксцентриситет
+
+
+
+
+
+    // Конвертирует координаты ECEF (x, y, z) в геодезическую точку (lat, lon, h).
+    public static Geodetic EcefToGeodetic(double x, double y, double z) {
+        // Вспомогательные параметры эллипсоида
+        double eps = e_sq / (1.0 - e_sq);
+        // Расстояние от оси Z
+        double p = Math.sqrt(x * x + y * y);
+
+        // Вспомогательный угол
+        double q = Math.atan2((z * a), (p * b));
+        double sin_q = Math.sin(q);
+        double cos_q = Math.cos(q);
+
+        // Кубы тригонометрических функций для итеративного метода
+        double sin_q_3 = sin_q * sin_q * sin_q;
+        double cos_q_3 = cos_q * cos_q * cos_q;
+
+        // Вычисление широты с учетом сжатия Земли
+        double phi = Math.atan2(
+                (z + eps * b * sin_q_3),
+                (p - e_sq * a * cos_q_3)
+        );
+
+        // Долгота - простой арктангенс
+        double lambda = Math.atan2(y, x);
+
+        // Радиус кривизны первого вертикала
+        double v = a / Math.sqrt(1.0 - e_sq * Math.sin(phi) * Math.sin(phi));
+
+        // Возвращение геодезических координат (в градусах) и высоты
+        return new Geodetic(
+                Math.toDegrees(phi),          // Широта в градусах
+                Math.toDegrees(lambda),       // Долгота в градусах
+                (p / Math.cos(phi)) - v       // Высота над эллипсоидом
+        );
+    }
+}
