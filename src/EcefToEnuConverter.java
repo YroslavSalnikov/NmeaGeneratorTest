@@ -19,14 +19,14 @@ public class EcefToEnuConverter {
     }
 
     /**
-     * Преобразование ECEF в ENU
-     * @param x, y, z - целевая точка в ECEF (метры)
+     * Преобразование utils.ECEF в utils.ENU
+     * @param x, y, z - целевая точка в utils.ECEF (метры)
      * @param lat0, lon0, h0 - опорная точка (широта, долгота в градусах, высота в метрах)
-     * @return ENU координаты
+     * @return utils.ENU координаты
      */
     public static EnuCoordinates ecefToEnu(double x, double y, double z,
                                            double lat0, double lon0, double h0) {
-        // 1. Сначала преобразуем опорную точку в ECEF
+        // 1. Сначала преобразуем опорную точку в utils.ECEF
         double[] ecef0 = geodeticToEcef(lat0, lon0, h0);
         double x0 = ecef0[0], y0 = ecef0[1], z0 = ecef0[2];
 
@@ -52,7 +52,7 @@ public class EcefToEnuConverter {
     }
 
     /**
-     * Преобразование геодезических координат в ECEF
+     * Преобразование геодезических координат в utils.ECEF
      */
     private static double[] geodeticToEcef(double lat, double lon, double h) {
         double phi = Math.toRadians(lat);
@@ -69,14 +69,14 @@ public class EcefToEnuConverter {
 
     public static void main(String[] args) {
         // Пример: преобразование точки рядом с Эйфелевой башней
-        // ECEF координаты точки (примерные)
+        // utils.ECEF координаты точки (примерные)
         double x = 4203000.0, y = 172000.0, z = 4780000.0;
 
         // Опорная точка (Эйфелева башня)
         double lat0 = 48.8583, lon0 = 2.2945, h0 = 300;
 
         EnuCoordinates enu = ecefToEnu(x, y, z, lat0, lon0, h0);
-        System.out.printf("ENU координаты:\nEast: %.2f м\nNorth: %.2f м\nUp: %.2f м\n",
+        System.out.printf("utils.ENU координаты:\nEast: %.2f м\nNorth: %.2f м\nUp: %.2f м\n",
                 enu.east, enu.north, enu.up);
     }
 }

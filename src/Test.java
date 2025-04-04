@@ -28,7 +28,7 @@ public class Test {
 
 
 
-    // Конвертирует координаты ECEF (x, y, z) в геодезическую точку (lat, lon, h).
+    // Конвертирует координаты utils.ECEF (x, y, z) в геодезическую точку (lat, lon, h).
     public static Geodetic EcefToGeodetic(double x, double y, double z) {
         // Вспомогательные параметры эллипсоида
         double eps = e_sq / (1.0 - e_sq);

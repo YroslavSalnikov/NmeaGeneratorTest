@@ -1,3 +1,9 @@
+import utils.ECEF;
+import utils.ENU;
+import utils.Geodetic;
+
+
+
 
 public class CoordinateConverter {
 
@@ -6,8 +12,8 @@ public class CoordinateConverter {
     private static final double e_sq = 6.69437999014e-3; // Эксцентриситет
 
 
-// Конвертация геодезических координат (широта, долгота, высота) в ECEF (Earth-Centered, Earth-Fixed)
-// Конвертирует геодезическую точку WGS-84 (широта, долгота, высота) в координаты ECEF (x, y, z).
+// Конвертация геодезических координат (широта, долгота, высота) в utils.ECEF (Earth-Centered, Earth-Fixed)
+// Конвертирует геодезическую точку WGS-84 (широта, долгота, высота) в координаты utils.ECEF (x, y, z).
 
 
     public static ECEF GeodeticToEcef(double lat, double lon, double h) {
@@ -27,7 +33,7 @@ public class CoordinateConverter {
         double cos_phi = Math.cos(phi);
         double sin_phi = Math.sin(phi);
 
-        // Возвращение ECEF координат по формулам преобразования
+        // Возвращение utils.ECEF координат по формулам преобразования
         return new ECEF(
                 (h + N) * cos_lambda * cos_phi,          // X координата
                 (h + N) * cos_lambda * sin_phi,          // Y координата
@@ -35,7 +41,8 @@ public class CoordinateConverter {
         );
     }
 
-    // Конвертирует координаты ECEF (x, y, z) в координаты East-North-Up (ENU) в локальной тангенциальной плоскости,
+
+    // Конвертирует координаты utils.ECEF (x, y, z) в координаты East-North-Up (utils.ENU) в локальной тангенциальной плоскости,
     // центрированной на геодезической точке (lat0, lon0, h0).
 
 
@@ -54,7 +61,7 @@ public class CoordinateConverter {
         double cos_phi = Math.cos(phi);
         double sin_phi = Math.sin(phi);
 
-        // Вычисление координат ECEF для точки (lat0, lon0, h0)
+        // Вычисление координат utils.ECEF для точки (lat0, lon0, h0)
         double x0 = (h0 + N) * cos_lambda * cos_phi;
         double y0 = (h0 + N) * cos_lambda * sin_phi;
         double z0 = (h0 + (1 - e_sq) * N) * sin_lambda;
@@ -64,7 +71,7 @@ public class CoordinateConverter {
         double yd = y - y0;
         double zd = z - z0;
 
-        // Преобразование в координаты ENU (East, North, Up) с использованием матрицы поворота
+        // Преобразование в координаты utils.ENU (East, North, Up) с использованием матрицы поворота
         return new ENU(
                 -sin_phi * xd + cos_phi * yd,     // East компонент
                 -cos_phi * sin_lambda * xd - sin_lambda * sin_phi * yd + cos_lambda * zd,  // North компонент
@@ -72,10 +79,10 @@ public class CoordinateConverter {
         );
     }
 
-    // Конвертация ENU обратно в ECEF
+    // Конвертация utils.ENU обратно в utils.ECEF
     // Обратное преобразование ecefToEnu.
     // Конвертирует координаты East-North-Up (xEast, yNorth, zUp) в
-    // координаты ECEF (x, y, z).
+    // координаты utils.ECEF (x, y, z).
 
 
     public static ECEF EnuToEcef(double xEast, double yNorth, double zUp, double lat0, double lon0, double h0) {
@@ -94,18 +101,18 @@ public class CoordinateConverter {
         double cos_phi = Math.cos(phi);
         double sin_phi = Math.sin(phi);
 
-        // Вычисление координат ECEF для точки (lat0, lon0, h0)
+        // Вычисление координат utils.ECEF для точки (lat0, lon0, h0)
         double x0 = (h0 + N) * cos_lambda * cos_phi;
         double y0 = (h0 + N) * cos_lambda * sin_phi;
         double z0 = (h0 + (1 - e_sq) * N) * sin_lambda;
 
-        // Преобразование координат ENU обратно в ECEF Обратное преобразование из ENU в ECEF (обратная матрица поворота)
+        // Преобразование координат utils.ENU обратно в utils.ECEF Обратное преобразование из utils.ENU в utils.ECEF (обратная матрица поворота)
         double xd = -sin_phi * xEast - cos_phi * sin_lambda * yNorth + cos_lambda * cos_phi * zUp;
         double yd = cos_phi * xEast - sin_lambda * sin_phi * yNorth + cos_lambda * sin_phi * zUp;
         double zd = cos_lambda * yNorth + sin_lambda * zUp;
 
 
-        // Возвращение к абсолютным ECEF координатам
+        // Возвращение к абсолютным utils.ECEF координатам
         return new ECEF(
                 xd + x0,  // X координата
                 yd + y0,  // Y координата
@@ -114,7 +121,7 @@ public class CoordinateConverter {
     }
 
 
-    // Конвертирует координаты ECEF (x, y, z) в геодезическую точку (lat, lon, h).
+    // Конвертирует координаты utils.ECEF (x, y, z) в геодезическую точку (lat, lon, h).
     public static Geodetic EcefToGeodetic(double x, double y, double z) {
         // Вспомогательные параметры эллипсоида
         double eps = e_sq / (1.0 - e_sq);
