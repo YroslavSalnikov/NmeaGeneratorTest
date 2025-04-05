@@ -72,7 +72,7 @@ public class GPSGenerator {
 
         int f = 1; //Показатель качества фикса (0 = нет, 1 = автономный, 2 = дифференциальный и т. д.)
         int q = 28; //Количество используемых спутников
-        String message = String.format("$GPGGA,%s,%s,%c,%s,%c,%c,%c,%c.8,10.0,M,0.0,M,,",
+        String message = String.format("$GPGGA,%s,%s,%s,%s,%s,%c,%c,%f.8,10.0,M,0.0,M,,",
                 time, lat, (latitude >= 0 ? 'N' : 'S'), lon, (longitude >= 0 ? 'E' : 'W'), f, q, altitude);
 
         return message + "*" + calculateChecksum(message);
