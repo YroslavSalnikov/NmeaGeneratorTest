@@ -6,14 +6,17 @@ import java.util.TimeZone;
 
 public class GPSGenerator {
 
+
     private static double latitude; // Широта
     private static double longitude; // Долгота
     private static double altitude; //
     private static double speed; // Скорость в км/ч
 
+
     public void inSpeed(double SPEED) {
         speed = SPEED;
     }
+
 
     public void transmitLatLonAlt(double lat, double lon, double alt) {
         latitude = lat;
@@ -21,8 +24,39 @@ public class GPSGenerator {
         altitude = alt;
     }
 
+
     private static double heading = 0; // Начальный курс (градусы)
     private static double turnAngle; // Угол поворота (градусы) (расчетный приходит из CalculationOfTheTrajectoryOfMovement)
+
+
+    // Метод для вывода сгенерированных строк
+    public static void transmit() {
+
+        try {
+            while (true) {
+                // Генерация сообщений
+                String gpgga = generateGPGGA();
+                String gpvtg = generateGPVTG();
+                String gpzda = generateGPZDA();
+
+                // Вывод сообщений
+                System.out.println(gpgga);
+                System.out.println(gpvtg);
+                System.out.println(gpzda);
+
+                // Обновление курса на основе угла поворота
+                updateHeading();
+
+                // Пауза 0.1 секунды
+                Thread.sleep(100);
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     // Генерация сообщения $GPGGA
@@ -90,34 +124,7 @@ public class GPSGenerator {
         turnAngle = newTurnAngle;
     }
 
-    // Метод для вывода сгенерированных строк
-    public static void transmit() {
-        try {
-            while (true) {
 
-
-
-                // Генерация сообщений
-                String gpgga = generateGPGGA();
-                String gpvtg = generateGPVTG();
-                String gpzda = generateGPZDA();
-
-                // Вывод сообщений
-                System.out.println(gpgga);
-                System.out.println(gpvtg);
-                System.out.println(gpzda);
-
-                // Обновление курса на основе угла поворота
-                updateHeading();
-
-                // Пауза 0.1 секунды
-                Thread.sleep(100);
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
 

@@ -88,6 +88,11 @@ public class CalculationOfTheTrajectoryOfMovement {
 
             // Обновляем координат x и y (расчетное состояния автомобиля)
             upDateState();
+                GPSGenerator gpsGenerator = new GPSGenerator();
+                gpsGenerator.inSpeed(V);
+                GPSGenerator.transmit();
+
+
         }
     }
 }

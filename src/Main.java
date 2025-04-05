@@ -7,13 +7,12 @@ public class Main {
 
 
     public static void main(String[] args) {
+
+
         CalculationOfTheTrajectoryOfMovement transfer = new CalculationOfTheTrajectoryOfMovement();
-        transfer.startCalculationOfTheTrajectory();
         transfer.inSpeedAndAngle(SPEED, theta_R);
+        transfer.startCalculationOfTheTrajectory();
 
-
-        GPSGenerator gpsGenerator = new GPSGenerator();
-        gpsGenerator.inSpeed(SPEED);
 
 
 
