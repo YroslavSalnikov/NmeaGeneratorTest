@@ -1,5 +1,5 @@
 
-
+/*
 public class EcefToEnuConverter {
     // Параметры эллипсоида WGS84
     private static final double a = 6378137.0;          // большая полуось (м)
@@ -19,11 +19,13 @@ public class EcefToEnuConverter {
     }
 
     /**
-     * Преобразование utils.ECEF в utils.ENU
+     * Преобразование utils.ECEF в ENU
      * @param x, y, z - целевая точка в utils.ECEF (метры)
      * @param lat0, lon0, h0 - опорная точка (широта, долгота в градусах, высота в метрах)
-     * @return utils.ENU координаты
+     * @return ENU координаты
      */
+
+/*
     public static EnuCoordinates ecefToEnu(double x, double y, double z,
                                            double lat0, double lon0, double h0) {
         // 1. Сначала преобразуем опорную точку в utils.ECEF
@@ -54,6 +56,8 @@ public class EcefToEnuConverter {
     /**
      * Преобразование геодезических координат в utils.ECEF
      */
+
+/*
     private static double[] geodeticToEcef(double lat, double lon, double h) {
         double phi = Math.toRadians(lat);
         double lambda = Math.toRadians(lon);
@@ -76,7 +80,8 @@ public class EcefToEnuConverter {
         double lat0 = 48.8583, lon0 = 2.2945, h0 = 300;
 
         EnuCoordinates enu = ecefToEnu(x, y, z, lat0, lon0, h0);
-        System.out.printf("utils.ENU координаты:\nEast: %.2f м\nNorth: %.2f м\nUp: %.2f м\n",
+        System.out.printf("ENU координаты:\nEast: %.2f м\nNorth: %.2f м\nUp: %.2f м\n",
                 enu.east, enu.north, enu.up);
     }
 }
+*/

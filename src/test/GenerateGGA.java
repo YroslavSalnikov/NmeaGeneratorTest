@@ -1,6 +1,6 @@
 
 // Часть 2
-
+/*
 
 public class GenerateGGA {
 
@@ -62,3 +62,4 @@ public class GenerateGGA {
 
 
 }
+*/

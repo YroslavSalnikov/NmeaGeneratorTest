@@ -1,5 +1,5 @@
 // Часть 1
-
+/*
 
 
 public class Test {
@@ -64,3 +64,4 @@ public class Test {
         );
     }
 }
+*/

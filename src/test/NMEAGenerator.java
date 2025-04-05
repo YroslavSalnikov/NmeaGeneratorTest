@@ -1,4 +1,6 @@
 
+
+/*
 import java.util.Scanner;
 
 public class NMEAGenerator {
@@ -47,3 +49,4 @@ public class NMEAGenerator {
         return String.format("%02X", checksum);
     }
 }
+*/
